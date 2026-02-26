@@ -48,6 +48,11 @@ const resources = {
       toggleLanguage: 'החלף שפה',
       openSidebar: 'פתח תפריט',
       closeSidebar: 'סגור תפריט',
+      // Empty states
+      welcomeToBarOS: 'ברוכים הבאים ל-BarOS',
+      loginToSeeYourData: 'אנא התחבר כדי לראות את המידע שלך',
+      loginToSeeProducts: 'התחבר כדי לראות מוצרים',
+      loginToSeeProductsDescription: 'כדי לצפות במוצרים ולנהל את המלאי שלך, יש להתחבר תחילה',
       // Bar Book
       barBookTitle: 'ספר בר',
       tabChecklists: 'צ\'קליסטים',
@@ -268,6 +273,10 @@ const resources = {
       toggleLanguage: 'Toggle language',
       openSidebar: 'Open menu',
       closeSidebar: 'Close menu',
+      welcomeToBarOS: 'Welcome to BarOS',
+      loginToSeeYourData: 'Please login to see your data',
+      loginToSeeProducts: 'Login to see products',
+      loginToSeeProductsDescription: 'To view products and manage your inventory, please login first',
       barBookTitle: 'Bar Book',
       tabChecklists: 'Checklists',
       tabPages: 'Stock pages',

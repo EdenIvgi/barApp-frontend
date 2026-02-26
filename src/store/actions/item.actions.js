@@ -15,8 +15,19 @@ const STALE_MS = 30_000
 let _lastFetchAt = 0
 
 export async function loadItems(filterBy, { force = false } = {}) {
-  const filter = filterBy || store.getState().itemModule.filterBy
-  if (!force && Date.now() - _lastFetchAt < STALE_MS && store.getState().itemModule.items.length) {
+  const state = store.getState()
+  const loggedInUser = state.userModule.loggedInUser
+  
+  // Don't load items if user is not logged in
+  if (!loggedInUser) {
+    store.dispatch(setItems([]))
+    store.dispatch(setMaxPage(0))
+    store.dispatch(setIsLoading(false))
+    return
+  }
+  
+  const filter = filterBy || state.itemModule.filterBy
+  if (!force && Date.now() - _lastFetchAt < STALE_MS && state.itemModule.items.length) {
     return
   }
   try {

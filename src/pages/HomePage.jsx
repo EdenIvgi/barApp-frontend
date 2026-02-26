@@ -9,28 +9,33 @@ import { barBookService } from '../services/barBook.service'
 
 export function HomePage() {
   const { t, i18n } = useTranslation()
+  const user = useSelector((storeState) => storeState.userModule.loggedInUser)
   const items = useSelector((storeState) => storeState.itemModule.items)
   const orders = useSelector((storeState) => storeState.orderModule.orders)
   const [barBookDailyTasks, setBarBookDailyTasks] = useState([])
 
   useEffect(() => {
-    loadItems()
-    loadOrders()
-  }, [])
+    if (user) {
+      loadItems()
+      loadOrders()
+    }
+  }, [user])
 
   useEffect(() => {
-    barBookService
-      .getContent()
-      .then((data) => {
-        const raw = Array.isArray(data?.dailyTasks) ? data.dailyTasks : []
-        const tasks = raw.map((d) => ({
-          day: d.day || '',
-          task: typeof d.task !== 'undefined' ? String(d.task) : (Array.isArray(d.items) ? d.items.join('\n') : '')
-        }))
-        setBarBookDailyTasks(tasks)
-      })
-      .catch(() => setBarBookDailyTasks([]))
-  }, [])
+    if (user) {
+      barBookService
+        .getContent()
+        .then((data) => {
+          const raw = Array.isArray(data?.dailyTasks) ? data.dailyTasks : []
+          const tasks = raw.map((d) => ({
+            day: d.day || '',
+            task: typeof d.task !== 'undefined' ? String(d.task) : (Array.isArray(d.items) ? d.items.join('\n') : '')
+          }))
+          setBarBookDailyTasks(tasks)
+        })
+        .catch(() => setBarBookDailyTasks([]))
+    }
+  }, [user])
 
   // Calculate statistics
   const stats = {
@@ -74,6 +79,18 @@ export function HomePage() {
   )
   const todayTask = todayEntry?.task?.trim() || t('dailyTaskFallback')
   const displayDayName = t('dayPrefix') ? `${t('dayPrefix')} ${t('day_' + dayIndex)}` : t('day_' + dayIndex)
+
+  // Show empty state when no user is logged in
+  if (!user) {
+    return (
+      <section className="home-page">
+        <div className="empty-state">
+          <h1>{t('welcomeToBarOS')}</h1>
+          <p>{t('loginToSeeYourData')}</p>
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section className="home-page">
