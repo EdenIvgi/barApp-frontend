@@ -7,6 +7,29 @@
   background: $white-off;
   min-height: calc(100vh - 200px);
 
+  // Empty state for non-logged-in users
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+    padding: 3rem 2rem;
+    text-align: center;
+    
+    h1, h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: $black-dark;
+    }
+    
+    p {
+      font-size: 1.125rem;
+      color: $gray-700;
+      max-width: 600px;
+    }
+  }
+
   .page-title {
     text-align: center;
     font-size: 2.5rem;
