@@ -60,7 +60,17 @@ const ORDER_STALE_MS = 30_000
 let _lastOrderFetchAt = 0
 
 export async function loadOrders(filterBy = {}, { force = false } = {}) {
-  if (!force && Date.now() - _lastOrderFetchAt < ORDER_STALE_MS && store.getState().orderModule.orders.length) {
+  const state = store.getState()
+  const loggedInUser = state.userModule.loggedInUser
+  
+  // Don't load orders if user is not logged in
+  if (!loggedInUser) {
+    store.dispatch(setOrdersAction([]))
+    store.dispatch(setIsLoading(false))
+    return
+  }
+  
+  if (!force && Date.now() - _lastOrderFetchAt < ORDER_STALE_MS && state.orderModule.orders.length) {
     return
   }
   try {

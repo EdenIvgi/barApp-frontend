@@ -1,6 +1,8 @@
 import { userService } from '../../services/user.service.js'
 import { setUser, setUsers } from '../slices/user.slice'
 import { store } from '../store.js'
+import { setItems } from '../slices/item.slice'
+import { setOrders, clearCart } from '../slices/order.slice'
 
 export async function login(credentials) {
   try {
@@ -26,6 +28,10 @@ export async function logout() {
   try {
     await userService.logout()
     store.dispatch(setUser(null))
+    // Clear all user-specific data
+    store.dispatch(setItems([]))
+    store.dispatch(setOrders([]))
+    store.dispatch(clearCart())
   } catch (error) {
     console.error('user actions -> Cannot logout', error)
     throw error

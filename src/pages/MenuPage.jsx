@@ -11,6 +11,7 @@ import { showErrorMsg } from '../services/event-bus.service'
 
 export function MenuPage() {
   const { t } = useTranslation()
+  const user = useSelector((storeState) => storeState.userModule.loggedInUser)
   const items = useSelector((storeState) => storeState.itemModule.items)
   const filterBy = useSelector((storeState) => storeState.itemModule.filterBy)
   const maxPage = useSelector((storeState) => storeState.itemModule.maxPage)
@@ -20,7 +21,7 @@ export function MenuPage() {
 
   useEffect(() => {
     fetchItems()
-  }, [filterBy])
+  }, [filterBy, user])
 
   async function fetchItems() {
     try {
@@ -39,6 +40,18 @@ export function MenuPage() {
     if (newPageIdx < 0) newPageIdx = maxPage - 1
     if (newPageIdx >= maxPage) newPageIdx = 0
     onSetFilter({ pageIdx: newPageIdx })
+  }
+
+  // Show empty state when no user is logged in
+  if (!user) {
+    return (
+      <section className="products-page">
+        <div className="empty-state">
+          <h2>{t('loginToSeeProducts')}</h2>
+          <p>{t('loginToSeeProductsDescription')}</p>
+        </div>
+      </section>
+    )
   }
 
   return (
