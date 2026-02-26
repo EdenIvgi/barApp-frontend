@@ -47,7 +47,7 @@ export function App() {
                 <Route element={<About />} path="/about" />
                 <Route element={<ProtectedRoute><UserDetails /></ProtectedRoute>} path="/user" />
                 <Route element={<MenuPage />} path="/products" />
-                <Route element={<MenuPage />} path="/products/:itemId" />
+                <Route element={<ItemDetails />} path="/products/:itemId" />
                 <Route element={<ProtectedRoute><OrderPage /></ProtectedRoute>} path="/order" />
                 <Route element={<ProtectedRoute><OrdersListPage /></ProtectedRoute>} path="/orders" />
                 <Route element={<ProtectedRoute><ItemsManagementPage /></ProtectedRoute>} path="/items-management" />
